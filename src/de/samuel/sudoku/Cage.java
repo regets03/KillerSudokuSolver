@@ -18,7 +18,7 @@ public class Cage {
     }
 
     private int[] getPossibleNumbers(int value, int size) {
-        System.out.println(value + " " + size);
+        // TODO
         return null;
     }
 
