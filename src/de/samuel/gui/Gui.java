@@ -8,11 +8,11 @@ public class Gui {
 
     public static final int WIDTH = 800, HEIGHT = 700;
 
-    public final HashMap<JLabel, Point> labels = new HashMap<>();
-    public final HashMap<Point, JLabel> points = new HashMap<>();
+    public static final HashMap<JLabel, Point> labels = new HashMap<>();
+    public static final HashMap<Point, JLabel> points = new HashMap<>();
 
     private final JFrame frame;
-    private final Draw draw;
+    public static final Draw draw = new Draw();
 
     public Gui(){
         frame = new JFrame();
@@ -22,7 +22,6 @@ public class Gui {
         frame.setLayout(null);
         frame.setLocationRelativeTo(null);
 
-        draw = new Draw();
         draw.setBounds(0,0, WIDTH, HEIGHT);
         frame.add(draw);
         draw.setVisible(true);
@@ -49,10 +48,6 @@ public class Gui {
                 points.put(new Point(i, j), label);
             }
         }
-    }
-
-    public Draw getDraw(){
-        return draw;
     }
 
 }

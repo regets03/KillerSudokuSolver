@@ -1,7 +1,5 @@
 package de.samuel.gui;
 
-import de.samuel.main.Main;
-import de.samuel.sudoku.Cage;
 import de.samuel.sudoku.Sudoku;
 
 import javax.swing.*;
@@ -15,19 +13,31 @@ public class MouseListener extends MouseAdapter {
     public void mouseClicked(MouseEvent e) {
         super.mouseClicked(e);
 
-        Point p = Main.gui.labels.get((JLabel) e.getSource());
+        Point p = Gui.labels.get((JLabel) e.getSource());
 
+        if(!isValidCell(e, p)){
+            return;
+        }
+
+        if(Draw.marked.contains(p)) {
+            Draw.marked.remove(p);
+        }else{
+            Draw.marked.add(p);
+        }
+
+    }
+
+    private boolean isValidCell(MouseEvent e, Point p){
         if(Sudoku.getCageByPoint(p) != null){
-            if(!Main.gui.getDraw().marked.isEmpty()){
-                // TODO
+            if(!Draw.marked.isEmpty()){
+                return Sudoku.getCageByPoint(Draw.marked.get(0)) == Sudoku.getCageByPoint(p);
+            }
+        }else{
+            if(!Draw.marked.isEmpty()){
+                return Sudoku.getCageByPoint(Draw.marked.get(0)) == null;
             }
         }
-
-        if(Main.gui.getDraw().marked.contains(p)) {
-            Main.gui.getDraw().marked.remove(p);
-        }else{
-            Main.gui.getDraw().marked.add(p);
-        }
+        return true;
     }
 
 

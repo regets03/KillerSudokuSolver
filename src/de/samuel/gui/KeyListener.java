@@ -1,6 +1,5 @@
 package de.samuel.gui;
 
-import de.samuel.main.Main;
 import de.samuel.sudoku.Sudoku;
 
 import javax.swing.*;
@@ -26,35 +25,32 @@ public class KeyListener extends KeyAdapter {
             case KeyEvent.VK_8 -> keyNumber(e, 8);
             case KeyEvent.VK_9 -> keyNumber(e, 9);
             case KeyEvent.VK_ENTER -> keyEnter(e);
-            case KeyEvent.VK_DELETE -> keyDelete(e);
+            case KeyEvent.VK_BACK_SPACE -> keyDelete(e);
         }
     }
 
     private void keyDelete(KeyEvent e) {
-        for(Point p : Main.gui.getDraw().marked){
-            JLabel label = Main.gui.points.get(p);
-            label.setText(label.getText().substring(0, label.getText().length()-2));
+        for(Point p : Draw.marked){
+            JLabel label = Gui.points.get(p);
+            if(!label.getText().isEmpty())
+                label.setText(label.getText().substring(0, label.getText().length()-1));
         }
     }
 
     private void keyNumber(KeyEvent e, int number){
-        for(Point p : Main.gui.getDraw().marked){
-            JLabel label = Main.gui.points.get(p);
+        for(Point p : Draw.marked){
+            JLabel label = Gui.points.get(p);
             label.setText(label.getText() + number);
         }
     }
 
     private void keyEnter(KeyEvent e){
-        int value = 0;
-        for(Point p : Main.gui.getDraw().marked){
-            value = Integer.parseInt(Main.gui.points.get(p).getText());
-            break;
+        if(!Draw.marked.isEmpty()) {
+            int value = Integer.parseInt(Gui.points.get(Draw.marked.get(0)).getText());
+            ArrayList<Point> points = new ArrayList<>(Draw.marked);
+            Sudoku.addCage(value, points.size(), points);
+            Draw.marked.clear();
         }
-        int size = Main.gui.getDraw().marked.size();
-        ArrayList<Point> points = Main.gui.getDraw().marked;
-        Sudoku.addCage(value, size, points);
-        Main.gui.getDraw().marked.clear();
-
     }
 
 }

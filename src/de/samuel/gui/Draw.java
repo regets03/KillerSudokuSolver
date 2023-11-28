@@ -10,7 +10,7 @@ public class Draw extends JLabel {
 
     public final int MARGIN_TOP = 50, MARGIN_LEFT = 50, FIELD_LENGTH = 9 * CELL_SIZE + 8 + 6, BOX_LENGTH = 3 * CELL_SIZE + 4;
 
-    ArrayList<Point> marked = new ArrayList<>();
+    public static final ArrayList<Point> marked = new ArrayList<>();
 
     protected void paintComponent(Graphics g){
 

@@ -14,6 +14,7 @@ public class Sudoku {
     public static Cage getCageByPoint(Point point){
         for(Cage cage : cages){
             if(cage.getPoints().contains(point)){
+                System.out.println("cage " + cages.size() + " " + point.toString() + " " + cages.get(0).getPoints().toString());
                 return cage;
             }
         }
