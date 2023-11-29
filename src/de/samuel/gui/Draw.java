@@ -13,38 +13,30 @@ public class Draw extends JLabel {
     public static final ArrayList<Point> marked = new ArrayList<>();
 
     protected void paintComponent(Graphics g){
-
         Graphics2D g2 = (Graphics2D) g;
 
         drawBoxes(g2);
-
         drawOutline(g2);
-
         drawCells(g2);
-
         drawMarks(g2);
 
         repaint();
     }
 
     private void drawBoxes(Graphics2D g2) {
-
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(2));
 
-        for(int i = 0; i < 4; i++){
-
+        for (int i = 0; i < 4; i++){
             // vertical box lines
             g2.drawLine(MARGIN_LEFT, MARGIN_TOP + i*BOX_LENGTH, MARGIN_LEFT + FIELD_LENGTH - 2, MARGIN_TOP + i*BOX_LENGTH);
 
             //horizontal box lines
             g2.drawLine(MARGIN_LEFT + i*BOX_LENGTH, MARGIN_TOP, MARGIN_LEFT + i*BOX_LENGTH, MARGIN_TOP + FIELD_LENGTH - 2);
-
         }
     }
 
     private void drawOutline(Graphics2D g2) {
-
         g2.setColor(Color.BLACK);
 
         //horizontal outlines
@@ -57,28 +49,29 @@ public class Draw extends JLabel {
     }
 
 
-    public Point pointToCoordinates(int x, int y){
+    public Point pointToCoordinates(int x, int y) {
         Point point = new Point();
+
         point.x = MARGIN_LEFT + x * (CELL_SIZE + 1) + 1 + (x/3);
         point.y = MARGIN_TOP + y * (CELL_SIZE + 1) + 1 + (y/3);
+
         return point;
     }
 
-    private void drawMarks(Graphics2D g2){
+    private void drawMarks(Graphics2D g2) {
         g2.setColor(new Color(0, 255, 255, 50));
-        for(Point point : marked){
+
+        for (Point point : marked) {
             Point p = pointToCoordinates(point.x, point.y);
             g2.fillRect(p.x, p.y, CELL_SIZE, CELL_SIZE);
         }
     }
 
-    private void drawCells(Graphics2D g2){
-
+    private void drawCells(Graphics2D g2) {
         g2.setColor(Color.BLACK);
         g2.setStroke(new BasicStroke(1));
 
         for (int i = 1; i < 10; i++) {
-
             // vertical lines
             int y = MARGIN_TOP + i * (BOX_LENGTH / 3) + (i / 3);
             g2.drawLine(MARGIN_LEFT, y, MARGIN_LEFT + FIELD_LENGTH, y);
@@ -86,9 +79,6 @@ public class Draw extends JLabel {
             // horizontal lines
             int x = MARGIN_LEFT + i * (BOX_LENGTH / 3) + (i / 3);
             g2.drawLine(x, MARGIN_TOP, x, MARGIN_TOP + FIELD_LENGTH);
-
         }
-
     }
-
 }

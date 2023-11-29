@@ -15,25 +15,25 @@ public class MouseListener extends MouseAdapter {
 
         Point p = Gui.labels.get((JLabel) e.getSource());
 
-        if(!isValidCell(e, p)){
+        if (!isValidCell(e, p)) {
             return;
         }
 
-        if(Draw.marked.contains(p)) {
+        if (Draw.marked.contains(p)) {
             Draw.marked.remove(p);
-        }else{
+        } else {
             Draw.marked.add(p);
         }
 
     }
 
     private boolean isValidCell(MouseEvent e, Point p){
-        if(Sudoku.getCageByPoint(p) != null){
-            if(!Draw.marked.isEmpty()){
+        if (Sudoku.getCageByPoint(p) != null) {
+            if (!Draw.marked.isEmpty()) {
                 return Sudoku.getCageByPoint(Draw.marked.get(0)) == Sudoku.getCageByPoint(p);
             }
-        }else{
-            if(!Draw.marked.isEmpty()){
+        } else {
+            if (!Draw.marked.isEmpty()) {
                 return Sudoku.getCageByPoint(Draw.marked.get(0)) == null;
             }
         }

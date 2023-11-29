@@ -30,15 +30,16 @@ public class KeyListener extends KeyAdapter {
     }
 
     private void keyDelete(KeyEvent e) {
-        for(Point p : Draw.marked){
+        for (Point p : Draw.marked) {
             JLabel label = Gui.points.get(p);
-            if(!label.getText().isEmpty())
-                label.setText(label.getText().substring(0, label.getText().length()-1));
+            if (!label.getText().isEmpty()) {
+                label.setText(label.getText().substring(0, label.getText().length() - 1));
+            }
         }
     }
 
-    private void keyNumber(KeyEvent e, int number){
-        for(Point p : Draw.marked){
+    private void keyNumber(KeyEvent e, int number) {
+        for (Point p : Draw.marked) {
             JLabel label = Gui.points.get(p);
             label.setText(label.getText() + number);
         }

@@ -9,12 +9,13 @@ public class Gui {
     public static final int WIDTH = 800, HEIGHT = 700;
 
     public static final HashMap<JLabel, Point> labels = new HashMap<>();
+
     public static final HashMap<Point, JLabel> points = new HashMap<>();
 
     private final JFrame frame;
     public static final Draw draw = new Draw();
 
-    public Gui(){
+    public Gui() {
         frame = new JFrame();
         frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(false);
@@ -34,16 +35,17 @@ public class Gui {
     }
 
     
-    private void addLabels(){
+    private void addLabels() {
         for (int i = 0; i <9 ; i++) {
             for (int j = 0; j < 9; j++) {
                 JLabel label = new JLabel();
+
                 label.setBounds(draw.pointToCoordinates(i, j).x, draw.pointToCoordinates(i, j).y, draw.CELL_SIZE, draw.CELL_SIZE);
                 label.setVisible(true);
-
                 label.addMouseListener(new MouseListener());
 
                 frame.add(label);
+
                 labels.put(label, new Point(i, j));
                 points.put(new Point(i, j), label);
             }
