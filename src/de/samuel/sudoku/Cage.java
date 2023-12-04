@@ -24,7 +24,7 @@ public class Cage {
         possibleCombinations = getPossibleCombinations(value, size);
     }
 
-    public Point getTopLeftPoint() {
+    public static Point getTopLeftPoint(List<Point> points) {
         Point result = new Point(9, 9);
 
         for (Point p : points) {

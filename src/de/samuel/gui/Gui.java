@@ -41,8 +41,11 @@ public class Gui {
                 JLabel label = new JLabel();
 
                 label.setBounds(draw.pointToCoordinates(i, j).x, draw.pointToCoordinates(i, j).y, draw.CELL_SIZE, draw.CELL_SIZE);
-                label.setVisible(true);
                 label.addMouseListener(new MouseListener());
+                label.setVerticalAlignment(SwingConstants.TOP);
+                label.setHorizontalAlignment(SwingConstants.LEFT);
+                label.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 0));
+                label.setVisible(true);
 
                 frame.add(label);
 

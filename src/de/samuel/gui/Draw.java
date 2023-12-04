@@ -46,11 +46,25 @@ public class Draw extends JLabel {
             boolean right = c.getPoints().contains(new Point(p.x + 1, p.y));
             boolean bottom = c.getPoints().contains(new Point(p.x, p.y + 1));
 
-            drawCageOutlineLeft(g2, coordinates, left, margin);
-            drawCageOutlineTop(g2, coordinates, top, margin);
+            if (p == Cage.getTopLeftPoint(c.getPoints())) {
+                drawTopLeftOutline(g2, coordinates, margin, Gui.labels_by_point.get(p).getText().length());
+            } else {
+                drawCageOutlineLeft(g2, coordinates, left, margin);
+                drawCageOutlineTop(g2, coordinates, top, margin);
+            }
+
             drawCageOutlineRight(g2, coordinates, right, margin);
             drawCageOutlineBottom(g2, coordinates, bottom, margin);
         }
+    }
+
+    private void drawTopLeftOutline(Graphics2D g2, Point coordinates, int margin, int textLength) {
+        //top
+        int adjustment = textLength == 1 ? 5 : 0;
+        g2.drawLine(coordinates.x + margin + 15 - adjustment, coordinates.y + margin, coordinates.x + CELL_SIZE - margin, coordinates.y + margin);
+
+        //left
+        g2.drawLine(coordinates.x + margin, coordinates.y + margin + 15, coordinates.x + margin, coordinates.y + CELL_SIZE - margin);
     }
 
     private void drawCageOutlineTop(Graphics2D g2, Point coordinates, boolean hasAdjacentFieldTop, int margin) {

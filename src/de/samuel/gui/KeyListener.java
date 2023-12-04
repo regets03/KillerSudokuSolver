@@ -1,5 +1,6 @@
 package de.samuel.gui;
 
+import de.samuel.sudoku.Cage;
 import de.samuel.sudoku.Sudoku;
 
 import javax.swing.*;
@@ -14,6 +15,11 @@ public class KeyListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
+
+        if (Draw.marked.isEmpty()) {
+            return;
+        }
+
         switch (e.getKeyCode()){
             case KeyEvent.VK_0 -> keyNumber(0);
             case KeyEvent.VK_1 -> keyNumber(1);
@@ -31,30 +37,24 @@ public class KeyListener extends KeyAdapter {
     }
 
     private void keyDelete() {
-        if (!Draw.marked.isEmpty() && Gui.labels_by_point.get(Draw.marked.get(0)).getText().isEmpty()) {
+        if (Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked)).getText().isEmpty()) {
             if (Sudoku.getCageByPoint(Draw.marked.get(0)) != null) {
                 Sudoku.cages.remove(Sudoku.getCageByPoint(Draw.marked.get(0)));
             }
-        }
-
-        for (Point p : Draw.marked) {
-            JLabel label = Gui.labels_by_point.get(p);
-            if (!label.getText().isEmpty()) {
-                label.setText(label.getText().substring(0, label.getText().length() - 1));
-            }
+        } else {
+            JLabel label = Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked));
+            label.setText(label.getText().substring(0, label.getText().length() - 1));
         }
     }
 
     private void keyNumber(int number) {
-        for (Point p : Draw.marked) {
-            JLabel label = Gui.labels_by_point.get(p);
-            label.setText(label.getText() + number);
-        }
+        JLabel label = Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked));
+        label.setText(label.getText() + number);
     }
 
     private void keyEnter() {
         if (isValidValue()) {
-            int value = Integer.parseInt(Gui.labels_by_point.get(Draw.marked.get(0)).getText());
+            int value = Integer.parseInt(Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked)).getText());
 
             if (Sudoku.getCageByPoint(Draw.marked.get(0)) == null) {
                 ArrayList<Point> points = new ArrayList<>(Draw.marked);
@@ -70,11 +70,11 @@ public class KeyListener extends KeyAdapter {
     }
 
     public static boolean isValidValue() {
-        if (Draw.marked.isEmpty() || Gui.labels_by_point.get(Draw.marked.get(0)).getText().isEmpty()) {
+        if (Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked)).getText().isEmpty()) {
             return false;
         }
 
-        int value = Integer.parseInt(Gui.labels_by_point.get(Draw.marked.get(0)).getText());
+        int value = Integer.parseInt(Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked)).getText());
         int n = Draw.marked.size();
 
         int min = (n * (n+1)) / 2;
