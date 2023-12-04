@@ -8,7 +8,9 @@ import java.util.stream.Stream;
 
 public class Cage {
 
-    private final int value, size;
+    private int value;
+
+    private final int size;
 
     private List<List<Integer>> possibleCombinations = new ArrayList<>();
 
@@ -20,6 +22,18 @@ public class Cage {
         this.points = points;
 
         possibleCombinations = getPossibleCombinations(value, size);
+    }
+
+    public Point getTopLeftPoint() {
+        Point result = new Point(9, 9);
+
+        for (Point p : points) {
+            if (p.x < result.x || (p.x == result.x && p.y < result.y)) {
+                result = p;
+            }
+        }
+
+        return result;
     }
 
     private List<List<Integer>> getPossibleCombinations(int value, int n) {
@@ -53,6 +67,10 @@ public class Cage {
 
     public ArrayList<Point> getPoints(){
         return points;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 
 }

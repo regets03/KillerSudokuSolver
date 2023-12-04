@@ -8,9 +8,9 @@ public class Gui {
 
     public static final int WIDTH = 800, HEIGHT = 700;
 
-    public static final HashMap<JLabel, Point> labels = new HashMap<>();
+    public static final HashMap<JLabel, Point> points_by_label = new HashMap<>();
 
-    public static final HashMap<Point, JLabel> points = new HashMap<>();
+    public static final HashMap<Point, JLabel> labels_by_point = new HashMap<>();
 
     private final JFrame frame;
     public static final Draw draw = new Draw();
@@ -46,8 +46,8 @@ public class Gui {
 
                 frame.add(label);
 
-                labels.put(label, new Point(i, j));
-                points.put(new Point(i, j), label);
+                points_by_label.put(label, new Point(i, j));
+                labels_by_point.put(new Point(i, j), label);
             }
         }
     }

@@ -1,5 +1,8 @@
 package de.samuel.gui;
 
+import de.samuel.sudoku.Cage;
+import de.samuel.sudoku.Sudoku;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -12,15 +15,78 @@ public class Draw extends JLabel {
 
     public static final ArrayList<Point> marked = new ArrayList<>();
 
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
         drawBoxes(g2);
         drawOutline(g2);
         drawCells(g2);
         drawMarks(g2);
+        drawCages(g2);
 
         repaint();
+    }
+
+    private void drawCages(Graphics2D g2) {
+        for (Cage c : Sudoku.cages) {
+            drawCage(g2, c);
+        }
+    }
+
+    private void drawCage(Graphics2D g2, Cage c) {
+        int margin = 5;
+
+        g2.setColor(Color.BLACK);
+
+        for (Point p : c.getPoints()) {
+            Point coordinates = pointToCoordinates(p.x, p.y);
+
+            boolean left = c.getPoints().contains(new Point(p.x - 1, p.y));
+            boolean top = c.getPoints().contains(new Point(p.x, p.y - 1));
+            boolean right = c.getPoints().contains(new Point(p.x + 1, p.y));
+            boolean bottom = c.getPoints().contains(new Point(p.x, p.y + 1));
+
+            drawCageOutlineLeft(g2, coordinates, left, margin);
+            drawCageOutlineTop(g2, coordinates, top, margin);
+            drawCageOutlineRight(g2, coordinates, right, margin);
+            drawCageOutlineBottom(g2, coordinates, bottom, margin);
+        }
+    }
+
+    private void drawCageOutlineTop(Graphics2D g2, Point coordinates, boolean hasAdjacentFieldTop, int margin) {
+        if (hasAdjacentFieldTop) {
+            g2.drawLine(coordinates.x + margin, coordinates.y, coordinates.x + margin, coordinates.y + margin);
+            g2.drawLine(coordinates.x + CELL_SIZE - margin, coordinates.y, coordinates.x + CELL_SIZE - margin, coordinates.y + margin);
+        } else {
+            g2.drawLine(coordinates.x + margin, coordinates.y + margin, coordinates.x + CELL_SIZE - margin, coordinates.y + margin);
+        }
+    }
+
+    private void drawCageOutlineRight(Graphics2D g2, Point coordinates, boolean hasAdjacentFieldRight, int margin) {
+        if (hasAdjacentFieldRight) {
+            g2.drawLine(coordinates.x + CELL_SIZE - margin, coordinates.y + margin, coordinates.x + CELL_SIZE, coordinates.y + margin);
+            g2.drawLine(coordinates.x + CELL_SIZE - margin, coordinates.y + CELL_SIZE - margin, coordinates.x + CELL_SIZE, coordinates.y + CELL_SIZE - margin);
+        } else {
+            g2.drawLine(coordinates.x + CELL_SIZE - margin, coordinates.y + margin, coordinates.x + CELL_SIZE - margin, coordinates.y + CELL_SIZE - margin);
+        }
+    }
+
+    private void drawCageOutlineBottom(Graphics2D g2, Point coordinates, boolean hasAdjacentFieldBottom, int margin) {
+        if (hasAdjacentFieldBottom) {
+            g2.drawLine(coordinates.x + margin, coordinates.y + CELL_SIZE - margin, coordinates.x + margin, coordinates.y + CELL_SIZE);
+            g2.drawLine(coordinates.x + CELL_SIZE - margin, coordinates.y + CELL_SIZE - margin, coordinates.x + CELL_SIZE - margin, coordinates.y + CELL_SIZE);
+        } else {
+            g2.drawLine(coordinates.x + margin, coordinates.y + CELL_SIZE - margin, coordinates.x + CELL_SIZE - margin, coordinates.y + CELL_SIZE - margin);
+        }
+    }
+
+    private void drawCageOutlineLeft(Graphics2D g2, Point coordinates, boolean hasAdjacentFieldLeft, int margin) {
+        if (hasAdjacentFieldLeft) {
+            g2.drawLine(coordinates.x, coordinates.y + margin, coordinates.x + margin, coordinates.y + margin);
+            g2.drawLine(coordinates.x, coordinates.y + CELL_SIZE - margin, coordinates.x + margin, coordinates.y + CELL_SIZE - margin);
+        } else {
+            g2.drawLine(coordinates.x + margin, coordinates.y + margin, coordinates.x + margin, coordinates.y + CELL_SIZE - margin);
+        }
     }
 
     private void drawBoxes(Graphics2D g2) {
@@ -34,10 +100,13 @@ public class Draw extends JLabel {
             //horizontal box lines
             g2.drawLine(MARGIN_LEFT + i*BOX_LENGTH, MARGIN_TOP, MARGIN_LEFT + i*BOX_LENGTH, MARGIN_TOP + FIELD_LENGTH - 2);
         }
+
+        g2.setStroke(new BasicStroke(1));
     }
 
     private void drawOutline(Graphics2D g2) {
         g2.setColor(Color.BLACK);
+        g2.setStroke(new BasicStroke(2));
 
         //horizontal outlines
         g2.drawLine(MARGIN_LEFT - 2, MARGIN_TOP - 2, MARGIN_LEFT + FIELD_LENGTH, MARGIN_TOP - 2);
@@ -46,6 +115,8 @@ public class Draw extends JLabel {
         //vertical outlines
         g2.drawLine(MARGIN_LEFT - 2, MARGIN_TOP - 2, MARGIN_LEFT - 2, MARGIN_TOP + FIELD_LENGTH);
         g2.drawLine(MARGIN_LEFT + FIELD_LENGTH, MARGIN_TOP - 2, MARGIN_LEFT + FIELD_LENGTH, MARGIN_TOP + FIELD_LENGTH);
+
+        g2.setStroke(new BasicStroke(1));
     }
 
 
@@ -69,7 +140,6 @@ public class Draw extends JLabel {
 
     private void drawCells(Graphics2D g2) {
         g2.setColor(Color.BLACK);
-        g2.setStroke(new BasicStroke(1));
 
         for (int i = 1; i < 10; i++) {
             // vertical lines
