@@ -14,6 +14,8 @@ public class Cage {
 
     private List<List<Integer>> possibleCombinations = new ArrayList<>();
 
+    private List<Integer> possibleNumbers = new ArrayList<>();
+
     private final ArrayList<Point> points;
 
     public Cage(int value, int size, ArrayList<Point> points) {
@@ -22,6 +24,15 @@ public class Cage {
         this.points = points;
 
         possibleCombinations = getPossibleCombinations(value, size);
+        possibleNumbers = getPossibleNumbers();
+    }
+
+    private List<Integer> getPossibleNumbers() {
+        return possibleCombinations
+                .stream()
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public static Point getTopLeftPoint(List<Point> points) {
@@ -50,7 +61,7 @@ public class Cage {
             List<List<Integer>> combinations = getPossibleCombinations(value-i, n-1);
 
             for (List<Integer> list : combinations) {
-                if (list.contains(i)){
+                if (list.contains(i)) {
                     continue;
                 }
 

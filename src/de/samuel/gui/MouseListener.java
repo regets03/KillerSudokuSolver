@@ -34,9 +34,26 @@ public class MouseListener extends MouseAdapter {
             if (Draw.marked.contains(p)) {
                 Draw.marked.remove(p);
             } else {
+                if (!isValidCell(p)) {
+                    return;
+                }
+
                 Draw.marked.add(p);
             }
         }
+    }
+
+    private boolean isValidCell(Point p) {
+        if (Draw.marked.isEmpty()) {
+            return true;
+        }
+
+        for (Point point : Draw.marked) {
+            if (new Point(point.x, point.y + 1).equals(p) || new Point(point.x+1, point.y).equals(p) || new Point(point.x, point.y-1).equals(p) || new Point(point.x-1, point.y).equals(p)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void clickCage(Point p) {

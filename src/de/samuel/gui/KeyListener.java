@@ -38,8 +38,13 @@ public class KeyListener extends KeyAdapter {
 
     private void keyDelete() {
         if (Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked)).getText().isEmpty()) {
-            if (Sudoku.getCageByPoint(Draw.marked.get(0)) != null) {
-                Sudoku.cages.remove(Sudoku.getCageByPoint(Draw.marked.get(0)));
+            Cage deleted = Sudoku.getCageByPoint(Draw.marked.get(0));
+            if (deleted != null) {
+                Sudoku.cages.remove(deleted);
+
+                for (Point p : deleted.getPoints()) {
+                    Sudoku.sudoku[p.x][p.y].setCage(null);
+                }
             }
         } else {
             JLabel label = Gui.labels_by_point.get(Cage.getTopLeftPoint(Draw.marked));
