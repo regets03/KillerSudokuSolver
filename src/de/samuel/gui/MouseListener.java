@@ -15,6 +15,7 @@ public class MouseListener extends MouseAdapter {
         super.mouseClicked(e);
 
         Point p = Gui.points_by_label.get((JLabel) e.getSource());
+        System.out.println(p);
 
         if (!Draw.marked.isEmpty() && Sudoku.getCageByPoint(Draw.marked.get(0)) != null && !KeyListener.isValidValue()) {
             System.err.println("Not a valid value");

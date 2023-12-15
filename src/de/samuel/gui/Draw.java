@@ -15,6 +15,8 @@ public class Draw extends JLabel {
 
     public static final ArrayList<Point> marked = new ArrayList<>();
 
+    public static boolean drawSolution = false;
+
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
@@ -24,7 +26,19 @@ public class Draw extends JLabel {
         drawMarks(g2);
         drawCages(g2);
 
+        if (drawSolution) {
+            drawSolution(g2);
+        }
+
         repaint();
+    }
+
+    private void drawSolution(Graphics2D g2) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                g2.drawString(Sudoku.sudoku[i][j].getValue() + "", pointToCoordinates(i, j).x, pointToCoordinates(i, j).y);
+            }
+        }
     }
 
     private void drawCages(Graphics2D g2) {

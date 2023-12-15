@@ -23,11 +23,23 @@ public class Cage {
         this.size = size;
         this.points = points;
 
-        possibleCombinations = getPossibleCombinations(value, size);
-        possibleNumbers = getPossibleNumbers();
+        possibleCombinations = searchPossibleCombinations(value, size);
+        possibleNumbers = searchPossibleNumbers();
     }
 
-    private List<Integer> getPossibleNumbers() {
+    public int getValue() {
+        return value;
+    }
+
+    public List<Integer> getPossibleNumbers() {
+        return possibleNumbers;
+    }
+
+    public List<List<Integer>> getPossibleCombinations() {
+        return possibleCombinations;
+    }
+
+    private List<Integer> searchPossibleNumbers() {
         return possibleCombinations
                 .stream()
                 .flatMap(List::stream)
@@ -47,7 +59,7 @@ public class Cage {
         return result;
     }
 
-    private List<List<Integer>> getPossibleCombinations(int value, int n) {
+    private List<List<Integer>> searchPossibleCombinations(int value, int n) {
         List<List<Integer>> result = new ArrayList<>();
 
         if (n == 1) {
@@ -58,7 +70,7 @@ public class Cage {
         int max = Math.max(1, value - 10*(n-1) + (n*(n-1))/2);
 
         for (int i = min; i >= max; i--) {
-            List<List<Integer>> combinations = getPossibleCombinations(value-i, n-1);
+            List<List<Integer>> combinations = searchPossibleCombinations(value-i, n-1);
 
             for (List<Integer> list : combinations) {
                 if (list.contains(i)) {
